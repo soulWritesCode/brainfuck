@@ -48,6 +48,9 @@ int main(int argc, char **argv)
       case '.':
         printf("%c", (char)array[dp]);
         break;
+      case ',':
+        array[dp] = getchar();
+        break;
       case '[':
         if (array[dp] == 0) {
           int depth = 1;
