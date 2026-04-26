@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: make
+      run: make
+    - name: Create Release
+      env:
+        GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      run: |
+        gh release create ${{ github.ref_name }} \
+           --title "Release ${{ github.ref_name }}" \
+           --notes "Automated release for tag ${{ github.ref_name }}" \
+           bf
