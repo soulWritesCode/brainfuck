@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     return EXIT_FAILURE;
   }
   
-  uint8_t *array = (uint8_t *)malloc(NUM_ELEMENTS * sizeof(uint8_t));
+  uint8_t *array = (uint8_t *)calloc(NUM_ELEMENTS, sizeof(uint8_t));
   uint16_t dp = 0;
 
   if (array == NULL) {
@@ -34,10 +34,10 @@ int main(int argc, char **argv)
   while (*element != '\0') {
     switch (*element) {
       case '>':
-        dp = (dp + 1) % NUM_ELEMENTS;
+        dp = (dp + 1 + NUM_ELEMENTS) % NUM_ELEMENTS;
         break;
       case '<':
-        dp = (dp - 1) % NUM_ELEMENTS;
+        dp = (dp - 1 + NUM_ELEMENTS) % NUM_ELEMENTS;
         break;
       case '-':
         array[dp] = array[dp] - 1;
@@ -48,6 +48,26 @@ int main(int argc, char **argv)
       case '.':
         printf("%c", (char)array[dp]);
         break;
+      case '[':
+        if (array[dp] == 0) {
+          int depth = 1;
+          while (depth > 0) {
+            element++;
+            if (*element == '[') depth++;
+            if (*element == ']') depth--;
+          }
+        }
+        break;
+      case ']':
+        if (array[dp] != 0) {
+          int depth = 1;
+          while (depth > 0) {
+            element--;
+            if (element < file) break;
+            if (*element == ']') depth++;
+            if (*element == '[') depth--;
+          }
+        }
     }
 
     element++;
