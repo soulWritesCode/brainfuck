@@ -21,7 +21,8 @@ jobs:
       env:
         GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: |
-        gh release create ${{ github.ref_name }} \
+        VERSION="v1.0.0-build.${{ github.run_number }}-${GITHUB_SHA::7}"
+        gh release create "$VERSION" \
            --title "Release ${{ github.ref_name }}" \
            --notes "Automated release for tag ${{ github.ref_name }}" \
            bf
