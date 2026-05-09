@@ -22,3 +22,12 @@ char* read_file(const char* filename)
 
   return buf;
 }
+
+FILE *open_file(const char* filename) {
+  FILE *fptr;
+  fptr = fopen(filename, "w");
+
+  assert(fptr != NULL);
+
+  return fptr;
+}
